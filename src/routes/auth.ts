@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { hash, verify } from '@node-rs/argon2'
 import type { Session } from 'hono-sessions'
+import { rateLimiter } from 'hono-rate-limiter'
 
 type SessionData = {
   authenticated: boolean
@@ -24,6 +25,13 @@ const getHashedPassword = async () => {
   }
   return hashedPassword
 }
+
+authRoutes.use('/login', rateLimiter({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  keyGenerator: (c) => c.req.header('x-forwarded-for') ?? c.req.raw.headers.get('host') ?? 'unknown',
+  message: { error: 'Too many attempts, try again later' },
+}))
 
 authRoutes.post('/login', async (c) => {
   const { username, password } = await c.req.json()
