@@ -8,6 +8,7 @@ import { currentlyRoutes } from './routes/currently'
 import { githubRoutes } from './routes/github'
 import { authRoutes } from './routes/auth'
 import { authMiddleware } from './middleware/auth'
+import { spotifyRoutes } from './routes/spotify'
 
 const app = new Hono()
 
@@ -42,6 +43,8 @@ app.use('/api/currently/*', authMiddleware)
 app.route('/api/profile', profileRoutes)
 app.route('/api/skills', skillsRoutes)
 app.route('/api/currently', currentlyRoutes)
+
+app.route('/api/spotify', spotifyRoutes)
 
 const port = Number(process.env.PORT) || 3001
 console.log(`Server running on http://localhost:${port}`)

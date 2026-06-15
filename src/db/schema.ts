@@ -25,3 +25,10 @@ export const currently = pgTable('currently', {
   value: text('value').notNull(),
   updatedAt: timestamp('updated_at').defaultNow(),
 })
+
+export const spotifyTokens = pgTable('spotify_tokens', {
+  id: serial('id').primaryKey(),
+  accessToken: text('access_token').notNull(),
+  refreshToken: text('refresh_token').notNull(),
+  expiresAt: text('expires_at').notNull(),
+})
