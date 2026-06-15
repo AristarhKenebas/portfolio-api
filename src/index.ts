@@ -9,6 +9,7 @@ import { githubRoutes } from './routes/github'
 import { authRoutes } from './routes/auth'
 import { authMiddleware } from './middleware/auth'
 import { githubSettingsRoutes } from './routes/github-settings'
+import { wakatimeRoutes } from './routes/wakatime'
 
 const app = new Hono()
 
@@ -39,13 +40,14 @@ app.route('/api/github', githubRoutes)
 app.use('/api/profile/*', authMiddleware)
 app.use('/api/skills/*', authMiddleware)
 app.use('/api/currently/*', authMiddleware)
+app.use('/api/github-settings/*', authMiddleware)
+app.route('/api/wakatime', wakatimeRoutes)
 
 app.route('/api/profile', profileRoutes)
 app.route('/api/skills', skillsRoutes)
 app.route('/api/currently', currentlyRoutes)
-
-app.use('/api/github-settings/*', authMiddleware)
 app.route('/api/github-settings', githubSettingsRoutes)
+app.use('/api/wakatime/settings', authMiddleware)
 
 const port = Number(process.env.PORT) || 3001
 console.log(`Server running on http://localhost:${port}`)

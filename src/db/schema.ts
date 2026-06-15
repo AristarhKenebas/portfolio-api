@@ -39,3 +39,16 @@ export const githubSettings = pgTable('github_settings', {
   showPublicRepos: boolean('show_public_repos').default(true),
   pinnedOnly: boolean('pinned_only').default(false),
 })
+
+export const wakatimeSettings = pgTable('wakatime_settings', {
+  id: serial('id').primaryKey(),
+  provider: text('provider').default('wakatime'), // wakatime | wakapi | hakatime
+  apiKey: text('api_key'),
+  apiUrl: text('api_url').default('https://wakatime.com/api/v1'),
+  enabled: boolean('enabled').default(false),
+  showTodayTime: boolean('show_today_time').default(true),
+  showTopLanguages: boolean('show_top_languages').default(true),
+  showTopProjects: boolean('show_top_projects').default(true),
+  languagesLimit: serial('languages_limit'),
+  projectsLimit: serial('projects_limit'),
+})
