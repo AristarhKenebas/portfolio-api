@@ -52,3 +52,13 @@ export const wakatimeSettings = pgTable('wakatime_settings', {
   languagesLimit: serial('languages_limit'),
   projectsLimit: serial('projects_limit'),
 })
+
+export const projects = pgTable('projects', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  url: text('url'),
+  tags: text('tags').array(),
+  featured: boolean('featured').default(true),
+  order: serial('order'),
+})
