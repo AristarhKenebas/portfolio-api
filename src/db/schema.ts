@@ -25,3 +25,17 @@ export const currently = pgTable('currently', {
   value: text('value').notNull(),
   updatedAt: timestamp('updated_at').defaultNow(),
 })
+
+export const githubSettings = pgTable('github_settings', {
+  id: serial('id').primaryKey(),
+  showStars: boolean('show_stars').default(true),
+  showLanguage: boolean('show_language').default(true),
+  showUpdatedAt: boolean('show_updated_at').default(true),
+  showForks: boolean('show_forks').default(false),
+  showDescription: boolean('show_description').default(true),
+  reposLimit: serial('repos_limit'),
+  showContributions: boolean('show_contributions').default(true),
+  showFollowers: boolean('show_followers').default(true),
+  showPublicRepos: boolean('show_public_repos').default(true),
+  pinnedOnly: boolean('pinned_only').default(false),
+})
