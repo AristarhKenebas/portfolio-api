@@ -6,7 +6,16 @@ import { authMiddleware } from '../middleware/auth'
 
 export const projectsRoutes = new Hono()
 
-projectsRoutes.get('/', authMiddleware, async (c) => {
+projectsRoutes.get('/', async (c) => {
+  const onlyFeatured = c.req.query('featured')
+
+  if (onlyFeatured === 'true') {
+    const data = await db.select().from(projects)
+      .where(eq(projects.featured, true))
+      .orderBy(projects.order)
+    return c.json(data)
+  }
+
   const data = await db.select().from(projects).orderBy(projects.order)
   return c.json(data)
 })
@@ -29,3 +38,4 @@ projectsRoutes.delete('/:id', authMiddleware, async (c) => {
   await db.delete(projects).where(eq(projects.id, id))
   return c.json({ success: true })
 })
+
