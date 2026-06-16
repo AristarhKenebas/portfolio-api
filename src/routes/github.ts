@@ -31,7 +31,8 @@ githubRoutes.get('/', async (c) => {
   ])
 
   const user = await userRes.json() as Record<string, unknown>
-  const repos = await reposRes.json() as Array<Record<string, unknown>>
+  const reposData = await reposRes.json()
+  const repos = Array.isArray(reposData) ? reposData : []
 
   const filteredRepos = repos.map(r => {
     const repo: Record<string, unknown> = {

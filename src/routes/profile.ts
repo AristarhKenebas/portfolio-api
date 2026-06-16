@@ -1,18 +1,17 @@
 import { Hono } from 'hono'
 import { db } from '../db'
 import { profile } from '../db/schema'
+import { authMiddleware } from '../middleware/auth'
 
 export const profileRoutes = new Hono()
 
 profileRoutes.get('/', async (c) => {
   const data = await db.select().from(profile).limit(1)
-  if (!data[0]) {
-    return c.json({ error: 'Profile not found' }, 404)
-  }
+  if (!data[0]) return c.json({ error: 'Profile not found' }, 404)
   return c.json(data[0])
 })
 
-profileRoutes.post('/', async (c) => {
+profileRoutes.post('/', authMiddleware, async (c) => {
   const body = await c.req.json()
   const existing = await db.select().from(profile).limit(1)
 
