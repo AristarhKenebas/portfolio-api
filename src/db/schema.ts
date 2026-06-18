@@ -12,6 +12,7 @@ export const profile = pgTable('profile', {
   available: boolean('available').default(true),
   githubUsername: text('github_username'),
   spotifyUsername: text('spotify_username'),
+  avatarUrl: text('avatar_url'),
   updatedAt: timestamp('updated_at').defaultNow(),
 })
 

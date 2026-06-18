@@ -15,6 +15,13 @@
       "when": 1781728636528,
       "tag": "0001_aromatic_mach_iv",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781815008895,
+      "tag": "0002_nebulous_the_twelve",
+      "breakpoints": true
     }
   ]
 }
