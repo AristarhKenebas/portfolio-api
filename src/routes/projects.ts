@@ -22,6 +22,9 @@ projectsRoutes.get('/', async (c) => {
 
 projectsRoutes.post('/', authMiddleware, async (c) => {
   const body = await c.req.json()
+  if (body.repoUpdatedAt) {
+    body.repoUpdatedAt = new Date(body.repoUpdatedAt)
+  }
   const created = await db.insert(projects).values(body).returning()
   return c.json(created[0], 201)
 })

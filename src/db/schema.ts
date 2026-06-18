@@ -1,4 +1,4 @@
-import { pgTable, serial, text, boolean, timestamp } from 'drizzle-orm/pg-core'
+import { pgTable, serial, text, boolean, timestamp, integer } from 'drizzle-orm/pg-core'
 
 export const profile = pgTable('profile', {
   id: serial('id').primaryKey(),
@@ -64,4 +64,16 @@ export const projects = pgTable('projects', {
   tags: text('tags').array(),
   featured: boolean('featured').default(true),
   order: serial('order'),
+  stars: integer('stars'),
+  forks: integer('forks'),
+  language: text('language'),
+  repoUpdatedAt: timestamp('repo_updated_at'),
+})
+
+export const projectDisplaySettings = pgTable('project_display_settings', {
+  id: serial('id').primaryKey(),
+  showStars: boolean('show_stars').default(true),
+  showForks: boolean('show_forks').default(true),
+  showLanguage: boolean('show_language').default(true),
+  showUpdatedAt: boolean('show_updated_at').default(true),
 })

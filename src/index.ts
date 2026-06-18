@@ -9,15 +9,20 @@ import { githubRoutes } from './routes/github'
 import { authRoutes } from './routes/auth'
 import { githubSettingsRoutes } from './routes/github-settings'
 import { wakatimeRoutes } from './routes/wakatime'
+import { projectSettingsRoutes } from './routes/project-settings'
 import { projectsRoutes } from './routes/projects'
 import { authMiddleware } from './middleware/auth'
+import { youtubeRoutes } from './routes/youtube'
 
 const app = new Hono()
 const store = new CookieStore()
 
 app.use('*', logger())
 app.use('*', cors({
-  origin: ['http://localhost:3000', 'http://localhost:3002'],
+  origin: [
+    'http://localhost:3000', 
+    'http://localhost:3002', 
+    ],
   credentials: true,
 }))
 app.use('*', sessionMiddleware({
@@ -33,23 +38,25 @@ app.use('*', sessionMiddleware({
 
 app.get('/', (c) => c.json({ status: 'ok', version: '1.0.0' }))
 
-// Публічні роути — без authMiddleware
+
 app.route('/api/auth', authRoutes)
 app.route('/api/github', githubRoutes)
 app.route('/api/profile', profileRoutes)
 app.route('/api/skills', skillsRoutes)
 app.route('/api/currently', currentlyRoutes)
+app.route('/api/project-settings', projectSettingsRoutes)
 app.route('/api/projects', projectsRoutes)
 app.route('/api/wakatime', wakatimeRoutes)
+app.route('/api/youtube', youtubeRoutes)
 
-// Захищені роути — тільки для адмінки
 app.use('/api/github-settings/*', authMiddleware)
 app.route('/api/github-settings', githubSettingsRoutes)
 
 const port = Number(process.env.PORT) || 3001
-console.log(`Server running on http://localhost:${port}`)
+console.log(`Server running on port ${port} (0.0.0.0)`)
 
 export default {
   port,
+  hostname: '0.0.0.0',
   fetch: app.fetch,
 }
